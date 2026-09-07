@@ -1,16 +1,20 @@
-# FinFlow — MVP
-Protótipo inicial de organização financeira pessoal.
+# FinFlow MVP 3.0
+
+Protótipo web responsivo de organização financeira pessoal.
 
 ## Recursos
-- Dashboard por mês
-- Receitas
-- Despesas
-- Dívidas/parcelas
-- Investimentos
-- Saldo mensal
-- Histórico por mês
-- Calendário/listagem financeira
-- Exclusão de lançamentos
-- Persistência no navegador (localStorage)
+- Dashboard mensal
+- Receitas, despesas e investimentos
+- Categorias em listas prontas por tipo
+- Edição e exclusão de lançamentos
+- Calendário financeiro mensal
+- Dívidas inteligentes com início, fim, parcelas e geração automática por mês
+- Orçamentos por categoria e mês
+- Área de patrimônio/ativos
+- Gráficos visuais no dashboard e visão anual
+- Comparação mês a mês
+- Backup/exportação em JSON
+- Dados salvos no localStorage do navegador
 
-Abra `index.html` no navegador. Para GitHub Pages, envie o conteúdo deste ZIP para um repositório e ative Pages.
+## Uso
+Abra `index.html` em um navegador ou publique o conteúdo no GitHub Pages.
