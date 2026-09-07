@@ -1,20 +1,21 @@
-# FinFlow MVP 3.0
+# FinFlow 5.0
 
-Protótipo web responsivo de organização financeira pessoal.
+Experiência de produto para gestão financeira pessoal, mantendo armazenamento 100% local durante os testes internos.
 
-## Recursos
-- Dashboard mensal
-- Receitas, despesas e investimentos
-- Categorias em listas prontas por tipo
-- Edição e exclusão de lançamentos
-- Calendário financeiro mensal
-- Dívidas inteligentes com início, fim, parcelas e geração automática por mês
-- Orçamentos por categoria e mês
-- Área de patrimônio/ativos
-- Gráficos visuais no dashboard e visão anual
-- Comparação mês a mês
-- Backup/exportação em JSON
-- Dados salvos no localStorage do navegador
+## Novidades 5.0
+- Onboarding inicial com perfil, renda e primeira meta.
+- Perfil do usuário com preferências.
+- Contas e carteiras: saldo inicial, saldo atual e conta padrão.
+- Transferências entre contas.
+- Recorrências mensais, semanais e anuais, sem duplicar infinitamente os dados no localStorage.
+- Notificações persistentes locais, com leitura e dispensa.
+- Badge de notificações no topo.
+- Lançamentos vinculados a contas.
+- Migração automática dos dados das versões anteriores disponíveis no navegador (v4/v3/v2).
+- Estrutura preparada para futura migração para backend, login e sincronização.
 
-## Uso
-Abra `index.html` em um navegador ou publique o conteúdo no GitHub Pages.
+## Como testar
+Abra `index.html` em um navegador ou publique no GitHub Pages.
+
+## Armazenamento
+Os dados ficam no `localStorage` do navegador. Não há servidor, banco de dados, login ou sincronização nesta versão.
