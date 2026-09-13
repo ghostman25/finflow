@@ -187,6 +187,153 @@ function exportCSV(){let rows=[['Data','Tipo','Categoria','Descrição','Valor',
 function printReport(){let old=document.title;document.title='Relatório FinFlow';window.print();document.title=old}
 function nav(){let arr=[['dashboard','Visão geral'],['entries','Lançamentos'],['accounts','Contas'],['cards','Cartões'],['recurring','Recorrências'],['debts','Dívidas'],['budgets','Orçamentos'],['assets','Patrimônio'],['goals','Metas'],['reports','Relatórios'],['annual','Visão anual'],['alerts','🔔 Alertas'],['profile','Perfil']];document.getElementById('nav').innerHTML=arr.map(([v,t])=>`<button class="${view===v?'active':''}" onclick="view='${v}';render()">${t}</button>`).join('')}
 
+
+// ===== FinFlow Assist 6.1 — interpretação financeira local (PT-BR) =====
+function normalizeMoneyToken(raw){
+  if(raw==null) return 0;
+  let v=String(raw).trim().replace(/\s/g,'').replace(/^R\$/i,'');
+  // Formato brasileiro: 1.500,00 / 1.500 / 500,00
+  if(v.includes(',')) return Number(v.replace(/\./g,'').replace(',','.'))||0;
+  // Ponto com 3 dígitos finais normalmente é milhar no padrão brasileiro: 1.500 => 1500.
+  if(/^\d+\.\d{3}$/.test(v)) return Number(v.replace('.',''))||0;
+  return Number(v)||0;
+}
+function moneyFromText(text){
+  const t=String(text||'');
+  // Ignora o número que representa quantidade de parcelas: 12x, 12 vezes etc.
+  const candidates=[];
+  const re=/(?:R\$\s*)?(\d{1,3}(?:\.\d{3})*(?:,\d{1,2})?|\d+(?:[\.,]\d{1,2})?)/gi;
+  let m;
+  while((m=re.exec(t))){
+    const before=t.slice(Math.max(0,m.index-1),m.index);
+    const after=t.slice(m.index+m[0].length,m.index+m[0].length+8);
+    if(/\d/.test(before) || /^\s*x\b/i.test(after) || /^\s*vezes\b/i.test(after)) continue;
+    candidates.push({raw:m[1],index:m.index});
+  }
+  if(!candidates.length) return 0;
+  // Prefere o valor explicitamente precedido por R$; senão o primeiro número que não seja parcela.
+  const rs=candidates.find(c=>/R\$\s*$/i.test(t.slice(Math.max(0,c.index-4),c.index)));
+  return normalizeMoneyToken((rs||candidates[0]).raw);
+}
+function extractMoneyDetails(text){
+  const t=String(text||'');
+  const re=/(?:R\$\s*)?(\d{1,3}(?:\.\d{3})*(?:,\d{1,2})?|\d+(?:[\.,]\d{1,2})?)/gi;
+  let m; const out=[];
+  while((m=re.exec(t))){
+    const after=t.slice(m.index+m[0].length,m.index+m[0].length+10);
+    if(/^\s*x\b/i.test(after)||/^\s*vezes\b/i.test(after)) continue;
+    out.push({raw:m[1],value:normalizeMoneyToken(m[1]),index:m.index,explicitR$: /R\$\s*$/i.test(t.slice(Math.max(0,m.index-4),m.index))});
+  }
+  return out;
+}
+function cleanAssistantDescription(text,type){
+  let d=String(text||'').trim();
+  d=d.replace(/(?:R\$\s*)?(\d{1,3}(?:\.\d{3})*(?:,\d{1,2})?|\d+(?:[\.,]\d{1,2})?)/gi,' ');
+  d=d.replace(/\b\d+\s*x\b/gi,' ');
+  if(type==='income') d=d.replace(/^(?:eu\s+)?(?:recebi|entrou|entrou\s+pra\s+mim|ganhei|ganhei\s+de|vendi|venda|receita|renda|sal[aá]rio|pagamento)\b/iu,' ');
+  else d=d.replace(/^(?:eu\s+)?(?:gastei|paguei|comprei|despesa|despesei|paguei\s+a|paguei\s+o|paguei\s+a\s+conta)\b/iu,' ');
+  d=d.replace(/\b(?:de|da|do|em|na|no|por|para|uma|um)\b/gi,' ');
+  d=d.replace(/\s+/g,' ').replace(/^[\s,.-]+|[\s,.-]+$/g,'').trim();
+  return d;
+}
+function detectCategory(text,type){
+  const t=String(text||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if(type==='income'){
+    if(/\b(salario|salario mensal|folha)\b/.test(t)) return 'Salário';
+    if(/freel|freela/.test(t)) return 'Freelance';
+    if(/uber|99|corrida/.test(t)) return 'Uber/99';
+    if(/vend|venda|produto|cliente/.test(t)) return 'Vendas';
+    if(/beneficio|vale|auxilio/.test(t)) return 'Benefícios';
+    if(/aluguel|locacao/.test(t)) return 'Aluguéis recebidos';
+    return 'Outras receitas';
+  }
+  if(/mercado|supermercado|feira|padaria|restaurante|almoco|jantar|comida|lanche/.test(t)) return 'Alimentação';
+  if(/gasolina|combustivel|etanol|alcool|gás|gnv|posto|uber/.test(t)) return 'Transporte';
+  if(/farmacia|medico|consulta|exame|dentista|saude/.test(t)) return 'Saúde';
+  if(/aluguel|condominio|prestacao da casa/.test(t)) return 'Moradia';
+  if(/luz|energia|agua|internet|telefone|celular|conta|boleto|fatura|iptu|taxa/.test(t)) return 'Contas';
+  if(/escola|curso|faculdade|mensalidade escolar/.test(t)) return 'Educação';
+  if(/imposto|ipva|licenciamento|multa/.test(t)) return 'Impostos';
+  if(/academia|netflix|spotify|prime|assinatura/.test(t)) return /academia/.test(t)?'Saúde':'Assinaturas';
+  if(/cinema|jogo|viagem|bar|festa|lazer/.test(t)) return 'Lazer';
+  if(/roupa|sapato|celular|eletronico|compra/.test(t)) return 'Compras';
+  if(/familia|filho|filha|esposa|esposo/.test(t)) return 'Família';
+  return 'Outras despesas';
+}
+function assistantAddEntry(type,amount,text){
+  const category=detectCategory(text,type);
+  const desc=cleanAssistantDescription(text,type)||category;
+  const id=Date.now().toString();
+  const entry={id,type,category,desc,amount,date:todayISO(),note:'Registrado pelo FinFlow Assist',accountId:db.profile.defaultAccountId||''};
+  db.entries.push(entry); save();
+  showReceipt({kind:'entry',id,title:type==='income'?'Receita registrada':'Despesa registrada',desc,amount,category,date:entry.date});
+  return entry;
+}
+function assistantReply(text){
+  const raw=String(text||'').trim();
+  const t=raw.toLowerCase();
+  const details=extractMoneyDetails(raw);
+  const amount=moneyFromText(raw);
+
+  if(!raw) return 'Digite algo como “recebi 500 de uma venda” ou “paguei 300 da conta de energia”.';
+
+  // Consultas primeiro: não registrar nada quando a pessoa estiver apenas perguntando.
+  if(/quanto.*(gastei|despesa|saiu)|gastei.*quanto|resumo.*m[eê]s|saldo.*m[eê]s/.test(t)){
+    const m=ym(cursor),s=sums(allEntries().filter(x=>x.date.startsWith(m)));
+    return `Neste mês, você registrou <b>${money(s.expense+s.debt)}</b> em despesas e dívidas. Receitas: <b>${money(s.income)}</b>. Saldo: <b>${money(s.income-s.expense-s.debt-s.investment)}</b>.`;
+  }
+  if(/(contas?|boletos?|parcelas?).*(pagar|vencer)|o que.*pagar|a pagar/.test(t)){
+    const bills=upcomingBills(ym(cursor));
+    if(!bills.length) return 'Você não tem contas ou compromissos futuros registrados neste mês.';
+    return '<b>Próximos compromissos:</b><br>'+bills.slice(0,6).map(x=>`• ${dateBR(x.date)} — ${esc(x.desc)}: <b>${money(x.amount)}</b>`).join('<br>');
+  }
+
+  // Recorrência: trata antes de receita/despesa imediata.
+  if(/todo m[eê]s|mensal|cada m[eê]s|recorrente|semanal|toda semana|anual|todo ano/.test(t) && amount){
+    const frequency=/semanal|toda semana/.test(t)?'weekly':/anual|todo ano/.test(t)?'yearly':'monthly';
+    const type=/(recebi|entra|ganho|sal[aá]rio|venda|receita)/.test(t)?'income':'expense';
+    const desc=cleanAssistantDescription(raw,type)||detectCategory(raw,type);
+    db.recurring.push({id:Date.now().toString(),type,category:detectCategory(raw,type),desc,amount,start:todayISO(),end:'',frequency,accountId:db.profile.defaultAccountId||'',note:'Criada pelo FinFlow Assist',active:true});
+    save();
+    return `🔁 Criei uma recorrência de <b>${money(amount)}</b> para <b>${esc(desc)}</b> (${frequency==='monthly'?'mensal':frequency==='weekly'?'semanal':'anual'}).`;
+  }
+
+  // Parcelamento: “comprei X em 12x de Y” ou “12x de Y”. O valor da parcela é o segundo valor.
+  const parcel=raw.match(/(?:em\s*)?(\d{1,3})\s*x\s*(?:de\s*)?(?:R\$\s*)?(\d{1,3}(?:\.\d{3})*(?:,\d{1,2})?|\d+(?:[\.,]\d{1,2})?)/i);
+  if(parcel){
+    const qty=Number(parcel[1]); const val=normalizeMoneyToken(parcel[2]);
+    if(qty>0&&qty<=120&&val>0){
+      const d=new Date();
+      const dayMatch=raw.match(/dia\s+(\d{1,2})/i); d.setDate(dayMatch?Math.min(Number(dayMatch[1]),28):d.getDate());
+      db.debts.push({id:Date.now().toString(),name:cleanAssistantDescription(raw,'expense')||'Compra parcelada',total:qty*val,installment:val,installments:qty,start:d.toISOString().slice(0,10)});
+      save();
+      return `🔁 Entendi <b>${qty} parcelas de ${money(val)}</b>, total de <b>${money(qty*val)}</b>. Cadastrei como dívida inteligente.`;
+    }
+  }
+
+  // Receita: frases naturais de entrada de dinheiro.
+  if(/\b(recebi|entrou|ganhei|vendi|venda|receita|renda|sal[aá]rio|pagamento recebido|caiu na conta)\b/.test(t) && amount){
+    const e=assistantAddEntry('income',amount,raw);
+    return `✅ Pronto. Registrei <b>${money(e.amount)}</b> em <b>${esc(e.category)}</b> nas <b>Receitas</b>${e.desc&&e.desc!==e.category?` — ${esc(e.desc)}`:''}.`;
+  }
+
+  // Despesa: frases naturais, inclusive “300 da conta de energia”.
+  if(/\b(gastei|paguei|comprei|despesa|despesei|pagar|paguei a conta|conta de|boleto de|fatura de|energia|luz|agua|internet|aluguel|mercado)\b/.test(t) && amount){
+    const e=assistantAddEntry('expense',amount,raw);
+    return `✅ Pronto. Registrei <b>${money(e.amount)}</b> em <b>${esc(e.category)}</b> nas <b>Despesas</b>${e.desc&&e.desc!==e.category?` — ${esc(e.desc)}`:''}.`;
+  }
+
+  return `Entendi que você quer lançar algo, mas preciso identificar o tipo e o valor. Tente:<br>• “recebi 500,00 de uma venda”<br>• “recebi 1500 de freelance”<br>• “paguei 300 da conta de energia”<br>• “gastei 1.500,00 no mercado”<br>• “minha internet é 99,90 todo mês”`;
+}
+function sendAssistant(){
+  const i=document.getElementById('assistantInput'); if(!i||!i.value.trim()) return;
+  const text=i.value.trim(); addChat('user',text);
+  const reply=assistantReply(text); addChat('ai',reply,reply);
+  const p=document.getElementById('assistantPanel'); if(p) p.outerHTML=assistantPanel();
+  const c=document.getElementById('chatbox'); if(c)c.scrollTop=c.scrollHeight;
+  render();
+}
+
 function init(){render();if(!db.profile.onboarded)showOnboarding()}
 
 init();
