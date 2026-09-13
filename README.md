@@ -1,27 +1,11 @@
-# FinFlow 6.2 — Assistente financeiro local
+# FinFlow 6.2
 
-Versão de teste para GitHub Pages. Tudo permanece no `localStorage`.
+## Novidades
+- Captura de tela/interação sem bloqueios adicionados pelo app.
+- Parcelamentos agora não assumem pagamento da 1ª parcela.
+- Se a data do primeiro vencimento não for informada, o FinFlow pergunta antes de cadastrar.
+- Exemplos aceitos: “primeira parcela dia 18 de outubro”, “vence dia 18/10” e, na sequência, apenas “18/10”.
+- Parcelas futuras são projetadas a partir da data informada.
 
-## Assistente
-O botão **Falar com o FinFlow** entende comandos naturais em português e registra diretamente nas categorias de Receitas ou Despesas.
-
-Exemplos:
-- `recebi 500,00 de uma venda` → Receita / Vendas / R$ 500,00
-- `recebi 1500 de freelance` → Receita / Freelance / R$ 1.500,00
-- `paguei 300 da conta de energia` → Despesa / Contas / R$ 300,00
-- `gastei 1.500,00 no mercado` → Despesa / Alimentação / R$ 1.500,00
-- `minha internet é 99,90 todo mês` → Recorrência mensal
-- `comprei em 12x de 100` → Dívida inteligente de 12 parcelas
-
-## Valores
-O interpretador foi reforçado para o padrão brasileiro:
-- `1500` → R$ 1.500,00
-- `1.500` → R$ 1.500,00
-- `1.500,00` → R$ 1.500,00
-- `500,00` → R$ 500,00
-- `R$ 1.500,00` → R$ 1.500,00
-
-O número de parcelas em frases como `12x de 100` não é confundido com o valor da operação.
-
-## Observação
-Esta interpretação é local e determinística nesta fase. Quando o FinFlow ganhar backend/IA real, o mesmo fluxo poderá ser expandido para intenções mais complexas, mantendo confirmação antes de ações ambíguas.
+## GitHub Pages
+Publique `index.html` como site estático. Os dados continuam em localStorage.

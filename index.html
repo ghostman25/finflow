@@ -1,11 +1,9 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#151827"><title>FinFlow — Gestão Financeira Pessoal</title>
 <style>
-/* Captura de tela liberada: não usar FLAG_SECURE, user-select:none ou bloqueios de captura neste PWA. */
-html,body{user-select:auto;-webkit-user-select:auto;-webkit-touch-callout:default;}
 :root{--bg:#f4f6fa;--card:#fff;--text:#151827;--muted:#73798a;--primary:#5b4bdb;--primary2:#7869ee;--green:#14945a;--red:#dc4652;--orange:#d88718;--blue:#3276d8;--line:#e7e9f0;--shadow:0 10px 30px rgba(26,31,55,.07)}*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer}.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.topin{max-width:1180px;margin:auto;padding:15px 18px 12px}.brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{font-size:24px;font-weight:900;letter-spacing:-.7px}.brand b{color:var(--primary)}.version{font-size:11px;color:var(--muted);font-weight:700;background:#f0effd;padding:4px 7px;border-radius:99px}.nav{display:flex;gap:7px;overflow:auto;margin-top:13px;padding-bottom:2px}.nav button{border:0;background:#f5f5fa;color:#505567;padding:9px 13px;border-radius:10px;white-space:nowrap;font-weight:800}.nav button.active{background:var(--primary);color:#fff;box-shadow:0 5px 14px rgba(91,75,219,.22)}main{max-width:1180px;margin:auto;padding:22px 18px 45px}.monthbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.monthbar h1{font-size:22px;margin:0;text-transform:capitalize}.monthbar .sub{font-size:12px;color:var(--muted);margin-top:3px}.iconbtn{border:1px solid var(--line);background:#fff;width:38px;height:38px;border-radius:11px;font-size:20px}.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow)}.card .label{color:var(--muted);font-size:12px;font-weight:700}.card .value{font-size:21px;font-weight:900;margin-top:7px;letter-spacing:-.4px}.green{color:var(--green)!important}.red{color:var(--red)!important}.blue{color:var(--blue)!important}.orange{color:var(--orange)!important}.layout{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;margin-top:16px}.panel{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:18px;box-shadow:var(--shadow)}.panel h2,.panel h3{margin:0 0 14px}.panel h3{font-size:16px}.muted{color:var(--muted)}.small{font-size:12px;color:var(--muted)}.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.rowleft{min-width:0}.rowleft b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tag{display:inline-flex;align-items:center;padding:4px 8px;border-radius:99px;background:#f1f2f6;color:#626879;font-size:11px;font-weight:800;margin-top:4px}.actions{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fff;padding:9px 12px;border-radius:10px;font-weight:800;color:#454a5b}.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}.btn.danger{color:var(--red)}.btn.sm{padding:6px 8px;font-size:11px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label{display:block;font-size:11px;color:var(--muted);font-weight:800;margin:0 0 5px}.field.full{grid-column:1/-1}input,select,textarea{border:1px solid #dfe2ea;background:#fff;border-radius:10px;padding:11px 12px;outline:none;width:100%;color:var(--text)}input:focus,select:focus,textarea:focus{border-color:#9c92ee;box-shadow:0 0 0 3px rgba(91,75,219,.09)}textarea{min-height:76px;resize:vertical}.formactions{grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end}.notice{padding:12px;border-radius:12px;background:#f5f4ff;border:1px solid #e3e0ff;color:#5147aa;font-size:12px;font-weight:700}.chart{width:100%;height:235px;display:block}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:5px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}.barline{display:grid;grid-template-columns:90px 1fr 80px;align-items:center;gap:9px;margin:10px 0}.track{height:9px;background:#eef0f5;border-radius:99px;overflow:hidden}.fill{height:100%;border-radius:99px;background:var(--primary)}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.calhead{font-size:10px;color:var(--muted);text-align:center;font-weight:900;padding:4px}.day{min-height:73px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:7px;position:relative}.day.mutedday{opacity:.4}.day.today{border-color:#8d82eb;box-shadow:inset 0 0 0 1px #8d82eb}.daynum{font-size:11px;font-weight:900}.event{font-size:9px;border-radius:5px;padding:2px 4px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#f0effd;color:#5147aa}.event.exp{background:#fff0f1;color:#bd3541}.event.inv{background:#eaf7ef;color:#137a4b}.event.debt{background:#fff5e6;color:#a6650d}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.debtcard{border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:10px}.progress{height:8px;background:#eef0f5;border-radius:99px;overflow:hidden;margin:10px 0 5px}.progress i{display:block;height:100%;background:var(--primary);border-radius:99px}.debtmeta{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--muted)}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.statbox{padding:13px;border:1px solid var(--line);border-radius:13px}.statbox .big{font-size:18px;font-weight:900;margin-top:5px}.empty{text-align:center;padding:28px 10px;color:var(--muted);font-size:13px}.tabs{display:flex;gap:6px;overflow:auto;margin-bottom:14px}.tabs button{border:1px solid var(--line);background:#fff;padding:8px 11px;border-radius:9px;font-size:12px;font-weight:800}.tabs button.on{background:#efedff;border-color:#dcd8ff;color:#5147aa}.modal{position:fixed;inset:0;background:rgba(13,17,31,.46);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}.modalbox{width:min(620px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:18px;padding:19px;box-shadow:0 30px 80px rgba(0,0,0,.25)}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.close{border:0;background:#f2f3f7;width:34px;height:34px;border-radius:9px}.hidden{display:none!important}.footer{color:var(--muted);font-size:11px;text-align:center;margin-top:25px}.yeartotals{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}.selectmonth{min-width:145px}.budget{margin-top:10px}.budgettop{display:flex;justify-content:space-between;font-size:12px;font-weight:800}.warning{color:var(--red)}.success{color:var(--green)}@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}.cards .card:last-child{grid-column:1/-1}.layout{grid-template-columns:1fr}.yeartotals{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){main{padding:16px 12px 35px}.topin{padding:13px 12px 10px}.brand{font-size:21px}.cards{gap:8px}.card{padding:13px}.card .value{font-size:18px}.formgrid{grid-template-columns:1fr}.field.full,.formactions{grid-column:auto}.calendar{gap:3px}.day{min-height:58px;padding:5px}.event{font-size:8px}.barline{grid-template-columns:75px 1fr 67px}.grid3{grid-template-columns:1fr}.monthbar h1{font-size:19px}}
 .heroDash{background:linear-gradient(135deg,#171a2c,#2e2a63);color:#fff;border-radius:22px;padding:22px;display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:16px;box-shadow:0 18px 40px rgba(31,27,73,.18)}.heroDash h2{margin:5px 0;font-size:28px;letter-spacing:-.8px}.heroDash p{margin:0;color:#d8d9e7;font-size:13px;max-width:620px}.eyebrow{font-size:10px;letter-spacing:1.5px;font-weight:900;opacity:.65}.forecastBox{min-width:220px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);padding:15px;border-radius:16px}.forecastBox span,.forecastBox small{display:block;color:#cdd0df;font-size:11px}.forecastBox strong{display:block;font-size:27px;margin:4px 0}.forecastBox .progress{background:rgba(255,255,255,.18)}.forecastBox .progress i{background:#fff}.alert{border:1px solid var(--line);border-left:4px solid var(--primary);background:#fafaff;border-radius:11px;padding:11px 12px;margin-bottom:9px;font-size:12px}.alert b{display:block;margin-bottom:3px}.alert.danger{border-left-color:var(--red);background:#fff7f8}.alert.warning{border-left-color:var(--orange);background:#fffaf2}.alert.success{border-left-color:var(--green);background:#f4fbf7}@media(max-width:700px){.heroDash{display:block}.forecastBox{margin-top:15px}.heroDash h2{font-size:23px}}
 .topactions{display:flex;align-items:center;gap:7px}.notifybtn,.profilechip{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-weight:800;color:#454a5b}.profilechip{display:flex;align-items:center;gap:6px}.badge{display:inline-flex;min-width:18px;height:18px;align-items:center;justify-content:center;border-radius:99px;background:var(--red);color:#fff;font-size:10px;padding:0 5px}.onboarding{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#151827,#302a68);display:flex;align-items:center;justify-content:center;padding:18px}.onboardbox{width:min(720px,100%);background:#fff;border-radius:26px;padding:28px;box-shadow:0 30px 90px rgba(0,0,0,.28)}.onbrand{font-size:28px;font-weight:900}.onbrand b{color:var(--primary)}.stepdots{display:flex;gap:7px;margin:18px 0}.stepdots i{height:6px;flex:1;border-radius:99px;background:#e9eaf0}.stepdots i.on{background:var(--primary)}.onboardbox h1{font-size:28px;margin:8px 0}.onboardbox p{color:var(--muted);font-size:13px;line-height:1.6}.onboardactions{display:flex;justify-content:space-between;gap:8px;margin-top:20px}.accountgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.accountcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:var(--shadow)}.accountbalance{font-size:22px;font-weight:900;margin:9px 0}.accounttype{font-size:11px;color:var(--muted)}.recurrence{border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:10px}.unread{background:#faf8ff;border-left:4px solid var(--primary)}@media(max-width:700px){.topactions .btn{display:none}.profilechip span:last-child{display:none}.accountgrid{grid-template-columns:1fr}.onboardbox{padding:22px}.onboardbox h1{font-size:23px}}
@@ -16,15 +14,15 @@ html,body{user-select:auto;-webkit-user-select:auto;-webkit-touch-callout:defaul
 @media print{.top,.assist-fab,.assistant-panel,.btn,.nav,.monthbar button{display:none!important}main{padding:0}.panel{box-shadow:none}}\n</style>
 </head>
 <body>
-<header class="top"><div class="topin"><div class="brandrow"><div class="brand"><b>Fin</b>Flow <span class="version">MVP 6.2</span></div><div class="topactions"><button class="notifybtn" onclick="toggleAssistant()">✨ Assistente</button><button class="notifybtn" onclick="view='alerts';render()">🔔 <span id="notifBadge" class="badge hidden">0</span></button><button class="profilechip" onclick="view='profile';render()"><span id="profileAvatar">🙂</span><span id="profileName">Perfil</span></button><button class="btn" onclick="exportData()">Exportar</button></div></div><nav class="nav" id="nav"></nav></div></header>
-<main><div id="app"></div><div class="footer">FinFlow 6.2 • dados salvos localmente neste navegador durante os testes.</div></main><div id="modal" class="hidden"></div>
+<header class="top"><div class="topin"><div class="brandrow"><div class="brand"><b>Fin</b>Flow <span class="version">MVP 6.0</span></div><div class="topactions"><button class="notifybtn" onclick="toggleAssistant()">✨ Assistente</button><button class="notifybtn" onclick="view='alerts';render()">🔔 <span id="notifBadge" class="badge hidden">0</span></button><button class="profilechip" onclick="view='profile';render()"><span id="profileAvatar">🙂</span><span id="profileName">Perfil</span></button><button class="btn" onclick="exportData()">Exportar</button></div></div><nav class="nav" id="nav"></nav></div></header>
+<main><div id="app"></div><div class="footer">FinFlow 6.0 • dados salvos localmente neste navegador durante os testes.</div></main><div id="modal" class="hidden"></div>
 <script>
 const KEY='finflow_data_v5';
 const OLD_KEYS=['finflow_data_v4','finflow_data_v3','finflow_data_v2'];
 const defaultDB={entries:[],debts:[],budgets:{},assets:[],goals:[],accounts:[],transfers:[],recurring:[],cards:[],chat:[],notifications:[],profile:{onboarded:false,name:'',monthlyIncome:0,mainGoal:'',avatar:'🙂',defaultAccountId:''},settings:{notifications:true}};
 let db=JSON.parse(localStorage.getItem(KEY)||'null');
 if(!db){for(const k of OLD_KEYS){const old=localStorage.getItem(k);if(old){try{db=JSON.parse(old);break}catch(e){}}}}
-db=db||defaultDB;db.cards=db.cards||[];db.chat=db.chat||[];db.entries=db.entries||[];db.debts=db.debts||[];db.budgets=db.budgets||{};db.assets=db.assets||[];db.goals=db.goals||[];db.accounts=db.accounts||[];db.transfers=db.transfers||[];db.recurring=db.recurring||[];db.notifications=db.notifications||[];db.profile={...defaultDB.profile,...(db.profile||{})};db.settings={...defaultDB.settings,...(db.settings||{})};
+db=db||defaultDB;db.assistantPending=db.assistantPending||null;db.cards=db.cards||[];db.chat=db.chat||[];db.entries=db.entries||[];db.debts=db.debts||[];db.budgets=db.budgets||{};db.assets=db.assets||[];db.goals=db.goals||[];db.accounts=db.accounts||[];db.transfers=db.transfers||[];db.recurring=db.recurring||[];db.notifications=db.notifications||[];db.profile={...defaultDB.profile,...(db.profile||{})};db.settings={...defaultDB.settings,...(db.settings||{})};
 let cursor=new Date();cursor.setDate(1);let view='dashboard';let editingId=null;let editingGoalId=null;
 const categories={income:['Salário','Freelance','Uber/99','Vendas','Benefícios','Aluguéis recebidos','Outras receitas'],expense:['Moradia','Alimentação','Transporte','Contas','Família','Compras','Lazer','Assinaturas','Saúde','Educação','Impostos','Outras despesas'],investment:['Reserva de emergência','Tesouro Direto','CDB','Ações','Fundos','Criptomoedas','Previdência','Outros investimentos']};
 const labels={income:'Receita',expense:'Despesa',investment:'Investimento',debt:'Dívida'};
@@ -271,6 +269,32 @@ function assistantAddEntry(type,amount,text){
   showReceipt({kind:'entry',id,title:type==='income'?'Receita registrada':'Despesa registrada',desc,amount,category,date:entry.date});
   return entry;
 }
+function parseAssistantInstallmentDate(text){
+  const raw=String(text||'').toLowerCase();
+  const now=new Date();
+  let day=null, month=null, year=null;
+  let m=raw.match(/(?:dia|em|para|primeira parcela(?:\s*(?:é|e)?\s*(?:dia|em|para)?))\s*(\d{1,2})(?:\s*(?:de|\/|-)?\s*(janeiro|fevereiro|marco|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro|\d{1,2}))?(?:\s*(?:de|\/|-)?\s*(\d{4}))?/i);
+  if(m){ day=Math.min(Number(m[1]),31); const months=['janeiro','fevereiro','marco','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro']; if(m[2]){ month=/^\d+$/.test(m[2])?Number(m[2])-1:months.indexOf(m[2]); if(month===2 && /março/.test(m[2])) month=2; } if(m[3]) year=Number(m[3]); }
+  if(day==null){
+    m=raw.match(/(\d{1,2})\s*\/\s*(\d{1,2})(?:\s*\/\s*(\d{4}))?/);
+    if(m){day=Math.min(Number(m[1]),31);month=Number(m[2])-1;if(m[3])year=Number(m[3]);}
+  }
+  if(day==null) return null;
+  if(month==null) month=now.getMonth();
+  if(year==null) year=now.getFullYear();
+  let d=new Date(year,month,day,12,0,0);
+  if(d.getDate()!==day || d.getMonth()!==month) return null;
+  if(!year || (!m?.[3] && d<new Date(now.getFullYear(),now.getMonth(),now.getDate(),0,0,0))) d.setFullYear(d.getFullYear()+1);
+  return d.toISOString().slice(0,10);
+}
+function createAssistantDebt(qty,val,description,start){
+  const s=new Date(start+'T12:00:00'); const end=new Date(s); end.setMonth(end.getMonth()+qty-1);
+  db.debts.push({id:Date.now().toString(),name:description||'Compra parcelada',total:qty*val,installment:val,installments:qty,start,end:end.toISOString().slice(0,10)});
+  db.assistantPending=null; save();
+}
+function installmentDateLabel(iso){
+  return new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(iso+'T12:00:00'));
+}
 function assistantReply(text){
   const raw=String(text||'').trim();
   const t=raw.toLowerCase();
@@ -300,16 +324,30 @@ function assistantReply(text){
     return `🔁 Criei uma recorrência de <b>${money(amount)}</b> para <b>${esc(desc)}</b> (${frequency==='monthly'?'mensal':frequency==='weekly'?'semanal':'anual'}).`;
   }
 
-  // Parcelamento: “comprei X em 12x de Y” ou “12x de Y”. O valor da parcela é o segundo valor.
+  // Parcelamento: nunca assume que a primeira parcela já foi paga.
+  // Se a data não vier na frase, pede o primeiro vencimento antes de cadastrar.
   const parcel=raw.match(/(?:em\s*)?(\d{1,3})\s*x\s*(?:de\s*)?(?:R\$\s*)?(\d{1,3}(?:\.\d{3})*(?:,\d{1,2})?|\d+(?:[\.,]\d{1,2})?)/i);
   if(parcel){
     const qty=Number(parcel[1]); const val=normalizeMoneyToken(parcel[2]);
     if(qty>0&&qty<=120&&val>0){
-      const d=new Date();
-      const dayMatch=raw.match(/dia\s+(\d{1,2})/i); d.setDate(dayMatch?Math.min(Number(dayMatch[1]),28):d.getDate());
-      db.debts.push({id:Date.now().toString(),name:cleanAssistantDescription(raw,'expense')||'Compra parcelada',total:qty*val,installment:val,installments:qty,start:d.toISOString().slice(0,10)});
-      save();
-      return `🔁 Entendi <b>${qty} parcelas de ${money(val)}</b>, total de <b>${money(qty*val)}</b>. Cadastrei como dívida inteligente.`;
+      const start=parseAssistantInstallmentDate(raw);
+      const description=cleanAssistantDescription(raw,'expense')||'Compra parcelada';
+      if(!start){
+        db.assistantPending={kind:'installment',qty,val,description,createdAt:Date.now()}; save();
+        return `🔁 Entendi <b>${qty} parcelas de ${money(val)}</b>, total de <b>${money(qty*val)}</b>.<br><br>Antes de cadastrar, me diga <b>quando vence a primeira parcela</b>.<br>Ex.: “dia 18 de outubro” ou “18/10”. Assim a 1ª parcela entra somente na data correta — não como se já tivesse sido paga.`;
+      }
+      createAssistantDebt(qty,val,description,start);
+      return `🔁 Perfeito. Cadastrei <b>${qty} parcelas de ${money(val)}</b>, total de <b>${money(qty*val)}</b>.<br>📅 Primeira parcela: <b>${installmentDateLabel(start)}</b>.<br>As parcelas futuras serão projetadas automaticamente, sem registrar nenhuma como paga hoje.`;
+    }
+  }
+
+  // Continuação de um parcelamento que aguardava a data do primeiro vencimento.
+  if(db.assistantPending?.kind==='installment'){
+    const start=parseAssistantInstallmentDate(raw);
+    if(start){
+      const p=db.assistantPending;
+      createAssistantDebt(p.qty,p.val,p.description,start);
+      return `✅ Pronto. A compra foi cadastrada em <b>${p.qty} parcelas de ${money(p.val)}</b>.<br>📅 Primeira parcela: <b>${installmentDateLabel(start)}</b>.<br>Não considerei nenhuma parcela como paga hoje.`;
     }
   }
 
