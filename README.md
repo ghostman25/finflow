@@ -1,4 +1,4 @@
-# FinFlow 6.1 — Assistente financeiro local
+# FinFlow 6.2 — Assistente financeiro local
 
 Versão de teste para GitHub Pages. Tudo permanece no `localStorage`.
 
